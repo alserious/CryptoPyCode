@@ -1,0 +1,49 @@
+name: Deployment Workflow
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: ["2.7", "3.6", "3.7", "3.8", "3.9", "3.10"]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install black
+          pip install pytest
+      - name: Formatting with black
+        run: |
+          black ./src
+      - name: Run unit tests
+        run: python -m pytest --import-mode=append ./src/tests/
+
+  notify:
+    runs-on: ubuntu-20.04
+    if: always()
+    needs: build
+    steps:
+      - name: Send telegram notification
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: html
+          message: |
+            <b>${{ github.workflow }}</b>
+            <b>repository</b>: <a href="https://github.com/${{github.repository}}">${{github.repository}}</a>
+            <b>event</b>: ${{ github.event_name }}
+            <b>status</b>: ${{ needs.build.result }}
+            <b>details</b>: <a href="https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}">Click to view</a>

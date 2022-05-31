@@ -1,4 +1,4 @@
-# Cryptopycode
+# cryptopycode
 
 Script for encryption and decryption Python modules
 

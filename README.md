@@ -1,14 +1,14 @@
-### Cryptopycode
+# Cryptopycode
 
-#### Script for encryption and decryption Python modules
+Script for encryption and decryption Python modules
 
-##### You need to install the package
+You need to install the pip package
 
 ```bash
 pip install cryptopycode
 ```
 
-##### Can be used as commands for python
+Can be used as commands for python
 
 ```bash
 python3 -m cryptopycode --help
@@ -16,9 +16,9 @@ python3 -m cryptopycode -n secret.py -k encrypt
 python3 -m cryptopycode -n secured.py -k decrypt
 ```
 
-##### Can be imported to you project
+Can be imported to you project
 
-###### imports
+imports
 
 ```python
 import os
@@ -26,15 +26,15 @@ import os
 from cryptopycode import CryptoModule
 ```
 
-###### get crypto module instance
+get crypto module instance
 
 ```python
 crypto_module = CryptoModule()
 ```
 
-###### encrypt
+encrypt
 
-###### open decrypted file with name "secret.py" and create encrypted file with name "secured.py"
+open decrypted file with name "secret.py" and create encrypted file with name "secured.py"
 
 ```python
 crypto_module.create_secured_module(
@@ -49,9 +49,9 @@ crypto_module.create_secured_module(
 )
 ```
 
-###### decrypt
+decrypt
 
-###### open encrypted file with name "secured.py" and create decrypted file with name "secret.py"
+open encrypted file with name "secured.py" and create decrypted file with name "secret.py"
 
 ```python
 crypto_module.create_opened_module(
